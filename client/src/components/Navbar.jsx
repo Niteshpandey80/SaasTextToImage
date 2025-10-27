@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import {assets} from '../assets/assets'
 import {Link, useNavigate} from 'react-router-dom'
+import { AppContext } from '../context/AppContext'
 
 const Navbar = () => {
-  const [user ,setUser] = useState(false);
+  const {user} = useContext(AppContext)
+
   const navigate = useNavigate()
   return (
-    <div className='flex items-center justify-between mt-5'>
+    <div className='flex items-center justify-between pt-7'>
     <Link to='/'>
      <img src={assets.mylogo} alt="" className='w-28 sm:w-32 lg:w-30 ' />
     </Link>
     <div>
       {user ? <div className='flex items-center gap-2 sm:grap-3'>
-        <button className='flex items-center gap-2 bg-blue-100 px-4 sm:px-6 py-1.5 sm:py-3 rounded-full hover:scale-105 transition-all duration-700'><img className='w-5' src={assets.credit_star} alt="" />
+        <button onClick={()=>navigate('/buy')} className='flex items-center gap-2 bg-blue-100 px-4 sm:px-6 py-1.5 sm:py-3 rounded-full hover:scale-105 transition-all duration-700'><img className='w-5' src={assets.credit_star} alt="" />
         <p className='text-xs sm:text-sm font-medium text-gray-600'>Credits left:50</p>
         </button>
         <p className='text-gray-600 max-sm:hidden'>Hi , NiteshPandey</p>
