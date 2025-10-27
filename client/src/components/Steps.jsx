@@ -3,7 +3,7 @@ import { stepsData } from '../assets/assets'
 
 const Steps = () => {
   return (
-    <section className="py-20 bg-white text-center">
+    <section className="py-20 text-center -mt-10">
       <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 mb-2">
         How It Works
       </h1>
@@ -11,11 +11,11 @@ const Steps = () => {
         Transform words into stunning AI-generated images
       </p>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-6 ">
         {stepsData.map((item, index) => (
           <div
             key={index}
-            className="relative flex flex-col items-center p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 shadow-md hover:shadow-2xl hover:scale-105 transition-all duration-300"
+            className="relative flex flex-col items-center p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 shadow-md hover:shadow-2xl hover:scale-105 transition-all duration-300 mt-10"
           >
             <div className="absolute -top-8 flex items-center justify-center w-16 h-16 rounded-full bg-blue-500 text-white shadow-lg">
               <img
