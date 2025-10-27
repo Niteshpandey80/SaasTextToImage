@@ -4,7 +4,7 @@ import { stepsData } from '../assets/assets'
 const Steps = () => {
   return (
     <section className="py-20 bg-white text-center">
-      <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
+      <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 mb-2">
         How It Works
       </h1>
       <p className="text-lg text-gray-600 mb-12">
@@ -23,7 +23,7 @@ const Steps = () => {
                 alt={item.title}
                 className="w-8 h-8 object-contain"
               />
-            </div>
+            </div> 
             <div className="mt-10">
               <h2 className="text-xl font-semibold text-gray-800 mb-3">
                 {item.title}
