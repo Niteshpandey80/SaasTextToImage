@@ -1,4 +1,3 @@
-import logo from './logo.svg'
 import logo_icon from './logo_icon.svg'
 import facebook_icon from './facebook_icon.svg'
 import instagram_icon from './instagram_icon.svg'
@@ -19,7 +18,10 @@ import star_group from './star_group.png'
 import credit_star from './credit_star.svg'
 import profile_icon from './profile_icon.png'
 import mylogo from './mylogo.png'
-
+import logo from './logo.png'
+import user from './user.png'
+import email from './email.png'
+import lock from './lock.png'
 
 export const assets = {
     logo,
@@ -38,6 +40,10 @@ export const assets = {
     credit_star,
     profile_icon,
     mylogo,
+    logo,
+    user,
+    email,
+    lock
 }
 
 export const stepsData = [

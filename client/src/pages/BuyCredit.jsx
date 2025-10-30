@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { assets, plans } from '../assets/assets'
-import logo from '../../public/logo.png'
 import {AppContext} from '../context/AppContext'
 
 const BuyCredit = () => {
@@ -12,7 +11,7 @@ const BuyCredit = () => {
         <div className='flex flex-wrap justify-center gap-6 text-left '>
           {plans.map((item , index)=>(
             <div key={index} className='bg-white drop-shadow-sm  rounded-lg py-12 px-8 text-gray-600 hover:scale-105 transition-all duration-500'>
-              <img src={logo} alt="" className='w-7'/>
+              <img src={assets.logo} alt="" className='w-7'/>
               <p className='mt-3 mb-1 font-semibold'>{item.id}</p>
               <p className='text-sm'>{item.desc}</p>  
               <p className='mt-6'><span className='text-3xl font-medium'>${item.price} </span> / {item.credits} credits</p>
