@@ -10,14 +10,16 @@ const registerUser = async (req, res) => {
       return res.json({ success: false, message: 'Missing Details' })
     }
 
+    // check if user already exists
+    const existingUser = await userModel.findOne({ email })
+    if (existingUser) {
+      return res.json({ success: false, message: 'User already exists' })
+    }
+
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    const userData = {
-      name,
-      email,
-      password: hashedPassword
-    }
+    const userData = { name, email, password: hashedPassword }
 
     const newUser = new userModel(userData)
     const user = await newUser.save()
@@ -27,7 +29,8 @@ const registerUser = async (req, res) => {
     res.json({
       success: true,
       token,
-      user: { name: user.name }
+      user: { name: user.name },
+      credit: user.creditBalance  // ✅ add this line for frontend
     })
   } catch (error) {
     console.log(error)
@@ -48,7 +51,12 @@ const loginUser = async (req, res) => {
 
     if (isMatch) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-      res.json({ success: true, token, user: { name: user.name } })
+      res.json({
+        success: true,
+        token,
+        user: { name: user.name },
+        credit: user.creditBalance  // ✅ include here as well
+      })
     } else {
       return res.json({ success: false, message: 'Invalid credentials' })
     }
@@ -60,12 +68,12 @@ const loginUser = async (req, res) => {
 
 const userCredits = async (req, res) => {
   try {
-    const userId = req.user.id 
+    const userId = req.user.id
     const user = await userModel.findById(userId)
 
     res.json({
       success: true,
-      credits: user.creditBalance,
+      credit: user.creditBalance,  // ✅ singular for consistency
       user: { name: user.name }
     })
   } catch (error) {
