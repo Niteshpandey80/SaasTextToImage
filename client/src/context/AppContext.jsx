@@ -1,53 +1,77 @@
 import { createContext, useEffect, useState } from "react"
-import { toast } from "react-toastify";
-import axios from 'axios'
+import { toast } from "react-toastify"
+import axios from "axios"
+import { useNavigate } from "react-router"
 
 export const AppContext = createContext()
 
 const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState(null)
-  const [showLogin, setShowLogin] = useState(false);
-  const [token , setToken] = useState(localStorage.getItem('token'))
-  const [credit , setCredit] = useState(0)
+  const [showLogin, setShowLogin] = useState(false)
+  const [token, setToken] = useState(localStorage.getItem("token"))
+  const [credit, setCredit] = useState(0)
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const navigate = useNavigate()
 
-  const backendUrl  = import.meta.env.VITE_BACKEND_URL 
-  const loadCreditsData = async ()=>{
+  const loadCreditsData = async () => {
     try {
-      const {data} = await axios.get(backendUrl + '/api/user/credits' , {headers:{token}})
-      if(data.success){
+      const { data } = await axios.get(backendUrl + "/api/user/credits", { headers: { token } })
+      if (data.success) {
         setCredit(data.credit)
         setUser(data.user)
       }
     } catch (error) {
-     console.log(error)
-     toast.error(error.message)
+      console.log(error)
+      toast.error(error.message)
     }
   }
-  const logout = ()=>{
-    localStorage.removeItem('token');
-    setToken('')
+
+  const generateImage = async (prompt) => {
+    try {
+      const { data } = await axios.post(backendUrl + "/api/image/generate-image", { prompt }, { headers: { token } })
+      if (data.success) {
+        loadCreditsData()
+        return data.resultImage
+      } else {
+        toast.error(data.message)
+        loadCreditsData()
+        if (data.creditBalance === 0) {
+          navigate("/buy")
+        }
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
+  const logout = () => {
+    localStorage.removeItem("token")
+    setToken("")
     setUser(null)
   }
-  useEffect(()=>{
-    if(token){
+
+  useEffect(() => {
+    if (token) {
       loadCreditsData()
     }
-  },[token])
-  
+  }, [token])
+
   const value = {
     user,
     setUser,
     showLogin,
     setShowLogin,
     backendUrl,
-    token , setToken , credit , setCredit , loadCreditsData , logout
+    token,
+    setToken,
+    credit,
+    setCredit,
+    loadCreditsData,
+    logout,
+    generateImage,
   }
 
-  return (
-    <AppContext.Provider value={value}>
-      {children}
-    </AppContext.Provider>
-  )
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }
 
 export default AppContextProvider
