@@ -68,8 +68,9 @@ const AppContextProvider = ({ children }) => {
     setCredit,
     loadCreditsData,
     logout,
-    generateImage,
+    generateImage
   }
+  //all deatils 
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }
