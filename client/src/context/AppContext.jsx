@@ -70,7 +70,6 @@ const AppContextProvider = ({ children }) => {
     logout,
     generateImage
   }
-  //all deatils 
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

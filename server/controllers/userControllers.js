@@ -1,6 +1,7 @@
 import userModel from '../models/userModel.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import razorpay  from 'razorpay'
 
 const registerUser = async (req, res) => {
   try {
@@ -10,7 +11,7 @@ const registerUser = async (req, res) => {
       return res.json({ success: false, message: 'Missing Details' })
     }
 
-    // check if user already exists
+
     const existingUser = await userModel.findOne({ email })
     if (existingUser) {
       return res.json({ success: false, message: 'User already exists' })
@@ -30,7 +31,7 @@ const registerUser = async (req, res) => {
       success: true,
       token,
       user: { name: user.name },
-      credit: user.creditBalance  // ✅ add this line for frontend
+      credit: user.creditBalance  
     })
   } catch (error) {
     console.log(error)
@@ -55,7 +56,7 @@ const loginUser = async (req, res) => {
         success: true,
         token,
         user: { name: user.name },
-        credit: user.creditBalance  // ✅ include here as well
+        credit: user.creditBalance 
       })
     } else {
       return res.json({ success: false, message: 'Invalid credentials' })
@@ -73,12 +74,26 @@ const userCredits = async (req, res) => {
 
     res.json({
       success: true,
-      credit: user.creditBalance,  // ✅ singular for consistency
+      credit: user.creditBalance,  
       user: { name: user.name }
     })
   } catch (error) {
     console.log(error)
     res.json({ success: false, message: error.message })
+  }
+}
+
+const razorpayInstance = new razorpay({
+  key_id : process.env.RAZORPAY_KEY_ID,
+  key_secret : process.env.RAZORPAY_KEY_SECRET
+})
+const paymentRazorpay = async(req,res)=>{
+  try {
+    const {userId , planId} = req.body
+    const userData = await userModel.findById(userId)
+  } catch (error) {
+      console.log(error);
+      res.json({success:false , message:error.message})    
   }
 }
 
